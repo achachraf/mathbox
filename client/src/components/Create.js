@@ -33,7 +33,7 @@ const Create = () => {
   };
 
   const onInputChange = (e, i) => {
-    const { inputs } = state;
+    const { inputs } = state.tool;
     inputs[i] = { ...inputs[i], [e.target.name]: e.target.value };
     setState({
       ...state,
