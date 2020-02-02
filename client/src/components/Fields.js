@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Navbar, AlgorithmRow } from "./UI";
+import { Navbar, ToolRow } from "./UI";
 import * as API from "../API";
 
 const Fields = () => {
   const selectedFieldID = "number-theory"; // to get from navigation parameters in the URL
-  const algorithms = API.getToolsinField(selectedFieldID);
+  const tools = API.getToolsinField(selectedFieldID);
   const fields = API.getAllFields(20);
   return (
     <div>
@@ -14,7 +14,7 @@ const Fields = () => {
         <div className="row">
           <div className="col-12 col-md-3 h-100vh px-0" style={{ paddingTop: 74 }}>
             <div className="p-3 overflow-auto h-100">
-              <div className="h4 py-2">fields</div>
+              <div className="h4 py-2">Fields</div>
               {fields.map((value, i) => (
                 <div className="card mb-2" key={i}>
                   <div className="card-body">
@@ -28,8 +28,8 @@ const Fields = () => {
           </div>
           <div className="col-12 col-md-9 h-100vh px-0" style={{ paddingTop: 74 }}>
             <div className="p-3 overflow-auto h-100">
-            {algorithms.map((value, i) => (
-              <AlgorithmRow algorithm={value} key={i} />
+            {tools.map((value, i) => (
+              <ToolRow tool={value} key={i} />
             ))}
             </div>
           </div>

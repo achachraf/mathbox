@@ -44,3 +44,6 @@
 .code-editor {
   min-height: 480px;
 }
+.mh-100 {
+  min-height: 100%;
+}

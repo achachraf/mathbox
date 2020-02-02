@@ -4,6 +4,7 @@ import "./App.css";
 import Home from "./components/Home";
 import Fields from "./components/Fields";
 import Create from "./components/Create";
+import Tool from "./components/Tool";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route exact path="/fields" component={Fields} />
         <Route exact path="/create" component={Create} />
+        <Route exact path="/tool" component={Tool} />
       </Switch>
     </Router>
   );
