@@ -59,15 +59,15 @@ export const UserBar = props => {
   );
 };
 
-export const AlgorithmRow = props => {
-  const { algorithm } = props;
+export const ToolRow = props => {
+  const { tool: tool } = props;
   return (
     <div className="card mb-3">
       <div className="card-body">
-        <h5 className="card-title">{algorithm.name}</h5>
-        <p className="card-text">{algorithm.description}</p>
+        <Link to={`/tools/${tool.id}`}></Link>
+        <p className="card-text">{tool.description}</p>
         <p className="card-text">
-          <small className="text-muted">{algorithm.id}</small>
+          <small className="text-muted">ID : {tool.id}</small>
         </p>
       </div>
     </div>

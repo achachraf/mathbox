@@ -7,7 +7,7 @@ import { UserBar } from "./UI";
 
 const Home = () => {
   const fields = API.getAllFields();
-  const popularAlgorithms = API.getFeaturedTools();
+  const popularTools = API.getFeaturedTools();
   return (
     <div>
       <div className="col-12 px-4 pt-4 text-right">
@@ -20,7 +20,7 @@ const Home = () => {
             <img className="w-50" src={Logo} alt="Mathbox logo" />
           </div>
           <div className="input-group mb-3">
-            <input type="text" className="form-control" placeholder="Search for an algorithm, tool, subject..." />
+            <input type="text" className="form-control" placeholder="Search for an tool, tool, subject..." />
             <div className="input-group-append">
               <button className="btn btn-primary" type="button" id="button-addon">
                 <MdArrowForward />
@@ -36,7 +36,7 @@ const Home = () => {
           </div>
           <div className="row">
             <div className="col-md-6 col-12">
-              <div className="h4 py-2">fields</div>
+              <div className="h4 py-2">Fields</div>
               {fields.map((value, i) => (
                 <div className="card mb-2" key={i}>
                   <div className="card-body">
@@ -55,8 +55,8 @@ const Home = () => {
               </div>
             </div>
             <div className="col-md-6 col-12">
-              <div className="h4 py-2">Featured algorithms</div>
-              {popularAlgorithms.map((value, i) => (
+              <div className="h4 py-2">Featured tools</div>
+              {popularTools.map((value, i) => (
                 <div className="card mb-2" key={i}>
                   <div className="card-body">
                     <b>
