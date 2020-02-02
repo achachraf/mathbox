@@ -5,8 +5,11 @@ import * as API from "../API";
 import Logo from "../mathbox.png";
 import { UserBar } from "./UI";
 
-const Home = () => {
-  const fields = API.getAllFields();
+const Home = async () => {
+  useEffect(() => {
+    const fields = await API.getAllFields();
+    console.log(fields)
+  }, [])
   const popularAlgorithms = API.getFeaturedTools();
   return (
     <div>

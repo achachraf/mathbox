@@ -1,13 +1,9 @@
-export function getAllFields(count = 3) {
-  // dummy data
-  var data = [];
-  for (let i = 0; i < count; i++) {
-    data.push({ name: "Number theory", id: "/fields/number-theory" });
-    data.push({ name: "Graph theory", id: "/fields/graph-theory" });
-    data.push({ name: "Logic", id: "/fields/logic" });
-    i += 3;
-  }
-  return data;
+import axios from 'axios';
+
+
+export async function getAllFields() {
+  const fields = await axios.get("/fields");
+  return fields;
 }
 
 export function getFeaturedTools(count = 4) {

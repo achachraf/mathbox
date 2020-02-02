@@ -165,6 +165,7 @@ router.post("/use/:id", async (req, res) => {
 router.post("/", auth, async (req, res) => {
   // let tool_name,field_id,code,inputPattern;
   let { tool_name, field_id, code, input } = req.body;
+  let {user_id} = req.user;
   const isToolExist = await knex("tools")
     .where({ tool_name })
     .first();
@@ -177,11 +178,12 @@ router.post("/", auth, async (req, res) => {
   if (!isFiledExist) {
     return res.status(401).send({ err: "filed doesn't exist" });
   }
+  
   //writing file in server
   const { field_name } = isFiledExist;
+  const path =
+    rootpath + "/algorithms/" + field_name + "/" + tool_name + ".cpp";
   try {
-    const path =
-      rootpath + "/algorithms/" + field_name + "/" + tool_name + ".cpp";
     fs.writeFileSync(path, code);
     await compile(field_name + "/" + tool_name);
 
@@ -190,7 +192,8 @@ router.post("/", auth, async (req, res) => {
       .returning("tool_id")
       .insert({
         tool_name,
-        field_id
+        field_id,
+        user_id
       });
     if (input && input.length !== 0) {
       for (line of input) {
@@ -210,6 +213,9 @@ router.post("/", auth, async (req, res) => {
   } catch (err) {
     console.log(err);
     fs.unlinkSync(path);
+    if(fs.existsSync(path.replace(".cpp",""))){
+      fs.unlinkSync(path.replace(".cpp",""))
+    }
     return res.status(500).send({ err: "failed to compile", log: err });
   }
 });

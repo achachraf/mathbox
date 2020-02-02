@@ -15,6 +15,7 @@ app.use(express.json({ extended: false }));
 app.use("/api/tools/",require("./routes/api/tools"));
 app.use("/api/fields/",require("./routes/api/fields"));
 app.use("/api/auth/",require("./routes/api/auth"));
+app.use("/api/users/",require("./routes/api/users"));
 
 
 //start the server
