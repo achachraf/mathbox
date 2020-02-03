@@ -61,10 +61,11 @@ const Tool = ({
       const res = await Axios.post("/tools/use/" + toolID, body, config);
       // const res = {};
       // const res = await API.executeTool();
+      console.log("resonse is :")
+      console.log(res)
       setState({
         ...state,
-        output: res.data,
-        alerts: [...state.alerts, { text: res.data.msg, type: "success" }]
+        output: res.data
       });
     } catch (err) {
       console.log(err.response);
@@ -97,7 +98,7 @@ const Tool = ({
           </div>
         </form>
         <div className="text-muted h5">Output</div>
-        <pre className="form-control" readOnly>
+        <pre className="p-2 bg-light border rounded border-secondary" readOnly >
           {state.output || "No outputs"}
         </pre>
       </div>

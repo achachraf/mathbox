@@ -154,6 +154,7 @@ router.post("/use/:id", async (req, res) => {
     const child = await run(field_name + "/" + tool_name);
     child.stdin.write(input + "\n");
     const data = await stdout(child);
+    console.log(data.toString())
     return res.send(data);
   } catch (err) {
     res.status(500).send({ err: "timeout, failed to execute..." });
