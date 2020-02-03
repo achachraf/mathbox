@@ -75,6 +75,7 @@ const Tool = ({
     
     } catch (err) {
       if (err.response) setState({ ...state, alerts: [...state.alerts, { text: err.response.data.msg || "Server error.", type: "danger" }] });
+      console.log(err)
     }
   };
   return (

@@ -140,8 +140,10 @@ router.post("/use/:id", async (req, res) => {
     }
     for (let i = 0; i < arrInput.length; i++) {
       let type = getType(arrInput[i]);
+      console.log(type)
       if (type == null) return res.status(400).send({ err: "Invalid input" });
-      if (type !== inputPattern[i].input_type) {
+      if (type === "decimal" && type !== inputPattern[i].input_type) {
+        console.log("walo");
         return res.status(400).send({
           err: `Invalid input ${i + 1}, expected ${
             inputPattern[i].input_type
