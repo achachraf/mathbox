@@ -16,27 +16,34 @@ const Fields = ({
     toolsLoading: true
   });
 
-  useEffect(()=>{
-    console.log("toolsloading"+state.toolsLoading)
-  },[])
+  useEffect(() => {
+    console.log("toolsloading" + state.toolsLoading);
+  }, []);
 
-  useEffect(()=>{
-    const api = async ()=>{
-      const {data:{tools}} = await Axios.get("/tools/field/"+selectedFieldID);
+  useEffect(() => {
+    const api = async () => {
+      const {
+        data: { tools }
+      } = await Axios.get("/tools/field/" + selectedFieldID);
       //console.log(tools);
       setState({
         ...state,
         tools,
-        toolsLoading: false,
-      })
-    }
-    if(selectedFieldID && state.toolsLoading === true){
-      console.log("yeees")
-      console.log(state)
+        toolsLoading: false
+      });
+    };
+    if (selectedFieldID && state.toolsLoading === true) {
+      console.log("yeees");
+      console.log(state);
       api();
+      setTimeout(() => {
+        setState(state => ({
+          ...state,
+          toolsLoading: true
+        }));
+      }, 800);
     }
-
-  },[selectedFieldID,state.toolsLoading,state.tools])
+  }, [selectedFieldID]);
 
   useEffect(() => {
     const getFields = async () => {
@@ -48,10 +55,10 @@ const Fields = ({
         fieldsLoading: false
       });
     };
-    if(state.fieldsLoading === true){
+    if (state.fieldsLoading === true) {
       getFields();
     }
-  }, [selectedFieldID,state.fieldsLoading]);
+  }, [selectedFieldID, state.fieldsLoading]);
   //const tools = API.getToolsinField(selectedFieldID);
   return (
     <div>
@@ -61,13 +68,13 @@ const Fields = ({
           <div className="col-12 col-md-3 h-100vh px-0" style={{ paddingTop: 74 }}>
             <div className="p-3 overflow-auto h-100">
               <div className="h4 py-2">Fields</div>
-          
+
               {state.fields.map((value, i) => (
                 <div className="card mb-2" key={i}>
                   <div className="card-body">
                     <b>
                       {console.log(value)}
-                      <Link to={"/fields/"+value.field_id}>{value.field_name}</Link>
+                      <Link to={"/fields/" + value.field_id}>{value.field_name}</Link>
                     </b>
                   </div>
                 </div>
