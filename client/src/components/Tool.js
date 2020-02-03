@@ -65,8 +65,9 @@ const Tool = ({
       console.log(res)
       setState({
         ...state,
-        output: res.data
+        output: res.data,
       });
+      setAlerts([...alerts, { msg: res.data.msg, alertType: "success" }])
     } catch (err) {
       console.log(err.response);
       if (err.response) setAlerts([...alerts, { msg: err.response.data.err || "Server error.", alertType: "danger" }]);
