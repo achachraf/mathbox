@@ -13,9 +13,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "concurrently": "^5.1.0",
+    "config": "^3.2.5",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "knex": "^0.20.6",
+    "mssql": "^6.0.1",
     "pg": "^7.15.1"
   }
 }

@@ -1,21 +1,18 @@
-export function getAllFields(count = 3) {
-  // dummy data
-  var data = [];
-  for (let i = 0; i < count; i++) {
-    data.push({ name: "Number theory", id: "/fields/number-theory" });
-    data.push({ name: "Graph theory", id: "/fields/graph-theory" });
-    data.push({ name: "Logic", id: "/fields/logic" });
-    i += 3;
-  }
-  return data;
+import axios from 'axios'
+
+export async function getAllFields(count = 3) {
+
+  const response = await axios.get("/fields");
+  return response.data;
 }
 
 export function getFeaturedTools(count = 4) {
   // dummy data
   return [
-    { name: "Breadth-first search", id: "1" },
-    { name: "Find all divisors", id: "2" },
-    { name: "Traveling Salesman", id: "3" }
+    { name: "Breadth-first search", id: "/algorithms/bfs" },
+    { name: "Find all divisors", id: "/algorithms/all-divisors" },
+    { name: "Find all divisors", id: "/algorithms/all-divisors" },
+    { name: "Traveling Salesman", id: "/algorithms/traveling-salesman" }
   ];
 }
 

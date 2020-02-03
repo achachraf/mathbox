@@ -1,15 +1,32 @@
-import React from "react";
+import React,{useEffect,useState, Fragment} from "react";
 import { Link } from "react-router-dom";
 import { MdArrowForward } from "react-icons/md";
 import * as API from "../API";
 import Logo from "../mathbox.png";
 import { UserBar } from "./UI";
+import axios from 'axios'
 
 const Home = () => {
-  const fields = API.getAllFields();
+
+  const [state, setState] = useState({
+    fields : []
+  })
+
+  useEffect(() => {
+    const getFields = async ()=>{
+      const fields = await API.getAllFields();
+      setState({
+        fields
+      })
+    }
+    getFields();
+  }, [])
+
+  // const fields = API.getAllFields();
   const popularTools = API.getFeaturedTools();
   return (
     <div>
+  
       <div className="col-12 px-4 pt-4 text-right">
         <UserBar />
       </div>
@@ -37,11 +54,11 @@ const Home = () => {
           <div className="row">
             <div className="col-md-6 col-12">
               <div className="h4 py-2">Fields</div>
-              {fields.map((field, i) => (
+              {state.fields.length && state.fields.map((value, i) => (
                 <div className="card mb-2" key={i}>
                   <div className="card-body">
                     <b>
-                      <Link to={field.id}>{field.name}</Link>
+                      <Link to={value.field_id}>{value.field_name}</Link>
                     </b>
                   </div>
                 </div>
