@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import Logo from "../mathbox.png";
+import setAuthToken from "../utils/setAuthToken";
+import { MdPerson } from "react-icons/md";
 
 export const Navbar = () => {
   const handleCollapseToggle = e => {
@@ -38,23 +41,43 @@ export const Navbar = () => {
             Search
           </button>
         </form>
-        <UserBar/>
+        <UserBar />
       </div>
     </nav>
   );
 };
 
 export const UserBar = props => {
-  const { user } = props;
+  const [auth, setAuth] = useState({ user: null, isAuthenticated: false, loading: true });
+  useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+      setAuth({ ...auth, user: loadUser() });
+    }
+  }, []);
+
+  const loadUser = async () => {
+    try {
+      const res = await axios.get("/users/auth");
+      // console.log(res.data);
+      return res.data;
+    } catch (err) {
+      //   const error = err.response.data;
+      //   if (error) {
+      // console.log(err);
+      //   }
+    }
+  };
+
   return (
     <div className="px-2">
-      {user == null ? (
-        <Link to="/login">
-        {/* Log in */}
-        </Link>
+      {auth.user == null ? (
+        <Link to="/login">Log in</Link>
       ) : (
         <div>
-          <Link to="/profile">{user.name}</Link>
+          {/* <Link to="/profile"> */}
+            <MdPerson /> {auth.user.username}
+          {/* </Link> */}
         </div>
       )}
     </div>
@@ -66,7 +89,9 @@ export const ToolRow = props => {
   return (
     <div className="card mb-3">
       <div className="card-body">
-        <Link to={`/tools/${tool.tool_id}`} className="h5" >{tool.tool_name}</Link>
+        <Link to={`/tools/${tool.tool_id}`} className="h5">
+          {tool.tool_name}
+        </Link>
         <p className="card-text mb-1">{tool.tool_name}</p>
         <p className="card-text">
           <small className="text-muted">ID : {tool.tool_id}</small>
@@ -75,7 +100,6 @@ export const ToolRow = props => {
     </div>
   );
 };
-
 
 export const Alerts = ({ alerts }) =>
   alerts !== null &&

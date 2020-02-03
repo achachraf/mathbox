@@ -1,34 +1,54 @@
-import React,{useEffect,useState, Fragment} from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { MdArrowForward } from "react-icons/md";
 import * as API from "../API";
 import Logo from "../mathbox.png";
 import { UserBar } from "./UI";
-import axios from 'axios'
+import setAuthToken from "../utils/setAuthToken";
+import axios from "axios";
 
 const Home = () => {
+  const [auth, setAuth] = useState({ user: null, isAuthenticated: false, loading: true });
+  useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+      setAuth({ ...auth, user: loadUser() });
+    }
+  }, []);
+
+  const loadUser = async () => {
+    try {
+      const res = await axios.get("/users/auth");
+      // console.log(res.data);
+      return res.data;
+    } catch (err) {
+      //   const error = err.response.data;
+      //   if (error) {
+      // console.log(err);
+      //   }
+    }
+  };
 
   const [state, setState] = useState({
-    fields : [],
+    fields: [],
     featuredTools: []
-  })
+  });
 
   useEffect(() => {
-    const api = async ()=>{
+    const api = async () => {
       const fields = await API.getAllFields();
-      const {data} = await axios.get("/tools");
+      const { data } = await axios.get("/tools");
       setState({
         fields,
         featuredTools: data
-      })
-    }
+      });
+    };
     api();
-  }, [])
+  }, []);
   // const fields = API.getAllFields();
   //const popularTools = API.getFeaturedTools();
   return (
     <div>
-  
       <div className="col-12 px-4 pt-4 text-right">
         <UserBar />
       </div>
@@ -49,23 +69,28 @@ const Home = () => {
         </div>
         <div className="container">
           <div className="text-center mb-3">
-            <Link className="btn btn-primary btn-lg" to="/create">
-              Create a new tool
-            </Link>
+            {auth.user == null ? (
+              <div/>
+            ) : (
+              <Link className="btn btn-primary btn-lg" to="/create">
+                Create a new tool
+              </Link>
+            )}
           </div>
           <div className="row">
             <div className="col-md-6 col-12">
               <div className="h4 py-2">Fields</div>
-              {state.fields.length > 0 && state.fields.map((value, i) => (
-                <div className="card mb-2" key={i}>
-                  <div className="card-body">
-                    <b>
-                      {console.log(value)}
-                      <Link to={"/fields/"+value.field_id}>{value.field_name}</Link>
-                    </b>
+              {state.fields.length > 0 &&
+                state.fields.map((value, i) => (
+                  <div className="card mb-2" key={i}>
+                    <div className="card-body">
+                      <b>
+                        {console.log(value)}
+                        <Link to={"/fields/" + value.field_id}>{value.field_name}</Link>
+                      </b>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
               <div className="card bg-primary mb-2">
                 <Link className="text-white" to="/fields">
                   <div className="card-body">
@@ -76,16 +101,20 @@ const Home = () => {
             </div>
             <div className="col-md-6 col-12">
               <div className="h4 py-2">Featured tools</div>
-              {state.featuredTools.map((tool, i) => (
-                i<=4?(<div className="card mb-2" key={i}>
-                  <div className="card-body">
-                    <b>
-                      {console.log(tool)}
-                      <Link to={`/tools/${tool.tool.tool_id}`}>{tool.tool.tool_name}</Link>
-                    </b>
+              {state.featuredTools.map((tool, i) =>
+                i <= 4 ? (
+                  <div className="card mb-2" key={i}>
+                    <div className="card-body">
+                      <b>
+                        {console.log(tool)}
+                        <Link to={`/tools/${tool.tool.tool_id}`}>{tool.tool.tool_name}</Link>
+                      </b>
+                    </div>
                   </div>
-                </div>):""
-              ))}
+                ) : (
+                  ""
+                )
+              )}
             </div>
           </div>
         </div>
