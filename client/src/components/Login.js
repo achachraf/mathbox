@@ -48,11 +48,11 @@ const Login = props => {
         loading: false
       };
     } catch (err) {
-      //     console.log(err);
-      //   const error = err.response.data;
-      //   if (error) {
-      setAlerts([...alerts, { msg: "login : server error", alertType: "danger" }]);
-      //   }
+      console.log(err.response);
+      const error = err.response.data;
+      if (error) {
+        setAlerts([...alerts, { msg: error.msg, alertType: "danger" }]);
+      }
     }
   };
 
@@ -79,7 +79,8 @@ const Login = props => {
   const onSubmit = async e => {
     e.preventDefault();
     const { username, password } = formData;
-    setAuth(await login(username, password));
+    const loginResponse = await login(username, password);
+    if (loginResponse) setAuth(loginResponse);
   };
   useEffect(() => {
     if (auth.isAuthenticated) {
@@ -89,10 +90,10 @@ const Login = props => {
   return (
     <div>
       <div className="loginpage" />
-      <Alerts alerts={alerts} />
       <div className="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 bg-white rounded border p-4 my-4">
         <form onSubmit={e => onSubmit(e)} className="px-md-3">
           <h1 className="py-3 px-0">Log in</h1>
+          <Alerts alerts={alerts} />
           <div className="input-group mb-2">
             <div className="input-group-prepend">
               <div className="input-group-text">Username</div>

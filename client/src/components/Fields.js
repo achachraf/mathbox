@@ -33,8 +33,6 @@ const Fields = ({
       });
     };
     if (selectedFieldID && state.toolsLoading === true) {
-      console.log("yeees");
-      console.log(state);
       api();
       setTimeout(() => {
         setState(state => ({
