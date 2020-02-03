@@ -9,21 +9,23 @@ import axios from 'axios'
 const Home = () => {
 
   const [state, setState] = useState({
-    fields : []
+    fields : [],
+    featuredTools: []
   })
 
   useEffect(() => {
-    const getFields = async ()=>{
+    const api = async ()=>{
       const fields = await API.getAllFields();
+      const {data} = await axios.get("/tools");
       setState({
-        fields
+        fields,
+        featuredTools: data
       })
     }
-    getFields();
+    api();
   }, [])
-
   // const fields = API.getAllFields();
-  const popularTools = API.getFeaturedTools();
+  //const popularTools = API.getFeaturedTools();
   return (
     <div>
   
@@ -58,7 +60,8 @@ const Home = () => {
                 <div className="card mb-2" key={i}>
                   <div className="card-body">
                     <b>
-                      <Link to={value.field_id}>{value.field_name}</Link>
+                      {console.log(value)}
+                      <Link to={"/fields/"+value.field_id}>{value.field_name}</Link>
                     </b>
                   </div>
                 </div>
@@ -73,14 +76,15 @@ const Home = () => {
             </div>
             <div className="col-md-6 col-12">
               <div className="h4 py-2">Featured tools</div>
-              {popularTools.map((tool, i) => (
-                <div className="card mb-2" key={i}>
+              {state.featuredTools.map((tool, i) => (
+                i<=4?(<div className="card mb-2" key={i}>
                   <div className="card-body">
                     <b>
-                      <Link to={`/tools/${tool.id}`}>{tool.name}</Link>
+                      {console.log(tool)}
+                      <Link to={`/tools/${tool.tool.tool_id}`}>{tool.tool.tool_name}</Link>
                     </b>
                   </div>
-                </div>
+                </div>):""
               ))}
             </div>
           </div>

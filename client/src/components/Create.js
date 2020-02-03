@@ -14,8 +14,7 @@ import axios from "axios";
 
 const Create = () => {
   const fields = API.getAllFields();
-
-  const [state, setState] = useState({
+  const initialState = {
     tool: {
       name: "",
       field: "",
@@ -24,8 +23,11 @@ const Create = () => {
       inputs: [{ input_order: 1, input_type: "integer" }]
     },
     alerts: [],
-    fields: []
-  });
+    fields: [],
+    
+  }
+
+  const [state, setState] = useState(initialState);
 
   // useEffect(() => {
   //   console.log(state);
@@ -35,14 +37,14 @@ const Create = () => {
   }, [state.alerts]);
 
   useEffect(() => {
-    const getFields = async () => {
+    const api = async () => {
       const fields = await API.getAllFields();
       setState({
         ...state,
         fields
       });
     };
-    getFields();
+    api();
   }, []);
 
   const handleChange = e => {
@@ -105,10 +107,11 @@ const Create = () => {
         input: state.tool.inputs
       };
       const res = await axios.post("/tools", body, config);
-      setState({
-        ...state,
-        alerts: [...state.alerts, { text: res.data.msg, type: "success" }]
-      });
+      setState(initialState)
+      // setState({
+      //   ...state,
+      //   alerts: [...state.alerts, { text: res.data.msg, type: "success" }]
+      // });
     } catch (err) {
       if (err.response)
         setState({
