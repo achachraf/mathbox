@@ -60,12 +60,12 @@ export const UserBar = props => {
 };
 
 export const ToolRow = props => {
-  const { tool: tool } = props;
+  const { tool } = props;
   return (
     <div className="card mb-3">
       <div className="card-body">
-        <Link to={`/tools/${tool.id}`}></Link>
-        <p className="card-text">{tool.description}</p>
+        <Link to={`/tools/${tool.id}`} className="h5" >{tool.name}</Link>
+        <p className="card-text mb-1">{tool.description}</p>
         <p className="card-text">
           <small className="text-muted">ID : {tool.id}</small>
         </p>
@@ -73,3 +73,13 @@ export const ToolRow = props => {
     </div>
   );
 };
+
+
+export const Alerts = ({ alerts }) =>
+  alerts !== null &&
+  alerts.length > 0 &&
+  alerts.map(alert => (
+    <div key={alert.id} className={`mb-1 alert alert-${alert.alertType}`}>
+      {alert.msg}
+    </div>
+  ));

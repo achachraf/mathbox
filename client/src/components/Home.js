@@ -20,7 +20,7 @@ const Home = () => {
             <img className="w-50" src={Logo} alt="Mathbox logo" />
           </div>
           <div className="input-group mb-3">
-            <input type="text" className="form-control" placeholder="Search for an tool, tool, subject..." />
+            <input type="text" className="form-control" placeholder="Search for an algorithm, tool, subject..." />
             <div className="input-group-append">
               <button className="btn btn-primary" type="button" id="button-addon">
                 <MdArrowForward />
@@ -37,11 +37,11 @@ const Home = () => {
           <div className="row">
             <div className="col-md-6 col-12">
               <div className="h4 py-2">Fields</div>
-              {fields.map((value, i) => (
+              {fields.map((field, i) => (
                 <div className="card mb-2" key={i}>
                   <div className="card-body">
                     <b>
-                      <Link to={value.id}>{value.name}</Link>
+                      <Link to={field.id}>{field.name}</Link>
                     </b>
                   </div>
                 </div>
@@ -56,11 +56,11 @@ const Home = () => {
             </div>
             <div className="col-md-6 col-12">
               <div className="h4 py-2">Featured tools</div>
-              {popularTools.map((value, i) => (
+              {popularTools.map((tool, i) => (
                 <div className="card mb-2" key={i}>
                   <div className="card-body">
                     <b>
-                      <Link to={value.id}>{value.name}</Link>
+                      <Link to={`/tools/${tool.id}`}>{tool.name}</Link>
                     </b>
                   </div>
                 </div>

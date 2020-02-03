@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Navbar } from "./UI";
+import { Navbar, Alerts } from "./UI";
 import * as API from "../API";
 import { MdDelete, MdAdd } from "react-icons/md";
 
@@ -18,15 +18,16 @@ const Create = () => {
     tool: {
       name: "",
       field: "",
+      description: "",
       code: "",
       inputs: [{ input_order: 1, input_type: "integer" }]
     },
     alerts: []
   });
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
+  // useEffect(() => {
+  //   console.log(state);
+  // }, [state]);
 
   const handleChange = e => {
     setState({ ...state, tool: { ...state.tool, [e.target.name]: e.target.value } });
@@ -75,6 +76,7 @@ const Create = () => {
     <div>
       <Navbar />
       <div className="container px-3" style={{ paddingTop: 74 }}>
+        <Alerts alerts={state.alerts} />
         <div className="h2 py-3">Create a new tool</div>
         <form onSubmit={e => handleSubmit(e)} className="form-group mb-3">
           <div className="input-group mb-2">
@@ -95,16 +97,26 @@ const Create = () => {
               <div className="input-group-text text-body">Field</div>
             </div>
             <select className="custom-select" value={state.tool.field} onChange={e => handleChange(e)} name="field">
-              <option selected disabled value="">
+              <option disabled value="">
                 Choose a field
               </option>
               {fields.map((field, i) => (
-                <option value={field.id}>{field.name}</option>
+                <option key={i} value={field.id}>
+                  {field.name}
+                </option>
               ))}
             </select>
           </div>
+          <textarea
+            placeholder="Description of the tool..."
+            required
+            className="form-control text-body mb-2"
+            value={state.tool.description}
+            name="description"
+            onChange={e => handleChange(e)}
+          />
           <div className="form-control text-body code-editor mb-2 overflow-auto">
-            <Editor            
+            <Editor
               placeholder="Put your C++ code here..."
               value={state.tool.code}
               onValueChange={code => setState({ ...state, tool: { ...state.tool, code } })}
@@ -132,9 +144,7 @@ const Create = () => {
                   onChange={e => onInputChange(e, id)}
                   id="input_type"
                   name="input_type">
-                  <option value="integer" selected>
-                    Integer
-                  </option>
+                  <option value="integer">Integer</option>
                   <option value="decimal">Decimal</option>
                 </select>
                 <div className="input-group-append">

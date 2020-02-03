@@ -12,8 +12,9 @@ function App() {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/fields" component={Fields} />
+        <Route exact path="/fields/:selectedFieldID" component={Fields} />
         <Route exact path="/create" component={Create} />
-        <Route exact path="/tool" component={Tool} />
+        <Route exact path="/tools/:toolID" component={Tool} />
       </Switch>
     </Router>
   );

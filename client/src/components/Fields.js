@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import { Navbar, ToolRow } from "./UI";
 import * as API from "../API";
 
-const Fields = () => {
-  const selectedFieldID = "number-theory"; // to get from navigation parameters in the URL
+const Fields = ({
+  match: {
+    params: { selectedFieldID }
+  }
+}) => {
   const tools = API.getToolsinField(selectedFieldID);
   const fields = API.getAllFields(20);
   return (
@@ -28,9 +31,11 @@ const Fields = () => {
           </div>
           <div className="col-12 col-md-9 h-100vh px-0" style={{ paddingTop: 74 }}>
             <div className="p-3 overflow-auto h-100">
-            {tools.map((value, i) => (
-              <ToolRow tool={value} key={i} />
-            ))}
+              {tools.length > 0 ? (
+                tools.map((value, i) => <ToolRow tool={value} key={i} />)
+              ) : (
+                <div className="text-muted h3 p-3">Select a field...</div>
+              )}
             </div>
           </div>
         </div>
