@@ -9,10 +9,10 @@ export async function getAllFields(count = 3) {
 export function getFeaturedTools(count = 4) {
   // dummy data
   return [
-    { name: "Breadth-first search", id: "/algorithms/bfs" },
-    { name: "Find all divisors", id: "/algorithms/all-divisors" },
-    { name: "Find all divisors", id: "/algorithms/all-divisors" },
-    { name: "Traveling Salesman", id: "/algorithms/traveling-salesman" }
+    { name: "Breadth-first search", id: "1" },
+    { name: "Find all divisors", id: "2" },
+    { name: "Find all divisors", id: "2" },
+    { name: "Traveling Salesman", id: "3" }
   ];
 }
 

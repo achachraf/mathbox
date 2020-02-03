@@ -21,7 +21,6 @@ const Fields = ({
     };
     getFields();
   }, []);
-  const selectedFieldID = "number-theory"; // to get from navigation parameters in the URL
   const tools = API.getToolsinField(selectedFieldID);
   return (
     <div>

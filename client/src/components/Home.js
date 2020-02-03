@@ -54,7 +54,7 @@ const Home = () => {
           <div className="row">
             <div className="col-md-6 col-12">
               <div className="h4 py-2">Fields</div>
-              {state.fields.length && state.fields.map((value, i) => (
+              {state.fields.length > 0 && state.fields.map((value, i) => (
                 <div className="card mb-2" key={i}>
                   <div className="card-body">
                     <b>
