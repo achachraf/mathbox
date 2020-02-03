@@ -31,6 +31,7 @@ router.get("/user/:user_id", async (req, res) => {
 router.get("/auth", auth, async (req, res) => {
   try {
     let { user_id } = req.user;
+    console.log("USER ID " + user_id);
     let user = await knex("users")
       .select("username", "email", "creation_date")
       .where({ user_id })

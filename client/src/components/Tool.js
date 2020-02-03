@@ -10,27 +10,24 @@ const Tool = ({
   }
 }) => {
   // const tool = API.getTool(toolID);
-
+  const [alerts, setAlerts] = useState([]);
   const [state, setState] = useState({
     loaded: false,
     inputs: [],
-    alerts: [],
     output: "",
-    tool : {}
+    tool: {}
   });
-  
-  useEffect(()=>{
-    
-  },[])
-  
+
+  useEffect(() => {}, []);
+
   let tool = {};
 
   useEffect(() => {
-    const getTool = async ()=>{
-      const response = await Axios.get("/tools/"+toolID);
+    const getTool = async () => {
+      const response = await Axios.get("/tools/" + toolID);
       tool = response.data;
-      if (state.loaded === false && tool.inputs !== undefined) setState(s => ({ ...s, inputs: tool.inputs, loaded: true,tool }));
-    }
+      if (state.loaded === false && tool.inputs !== undefined) setState(s => ({ ...s, inputs: tool.inputs, loaded: true, tool }));
+    };
     getTool();
   }, [tool.inputs, state.loaded]);
 
@@ -47,45 +44,41 @@ const Tool = ({
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfaWQiOjR9LCJpYXQiOjE1ODA2ODQzMDMsImV4cCI6MTU4MTA0NDMwM30.85BWzRV5YYa5nZn55BrAh-e2KQhUbN02BG61L_JvU24"
-          }
-        };
-        let s = "";
-        for(let input of state.inputs){
-          s += input.value+" "
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfaWQiOjR9LCJpYXQiOjE1ODA2ODQzMDMsImV4cCI6MTU4MTA0NDMwM30.85BWzRV5YYa5nZn55BrAh-e2KQhUbN02BG61L_JvU24"
         }
-        s = s.trim();
-        const body = {input:s}
-        console.log(body);
-        const res = await Axios.post("/tools/use/"+toolID,body,config);
-        // const res = {};
-        // const res = await API.executeTool();
-        setState({
-          ...state,
-          output: res.data,
-          alerts: [...state.alerts, { text: res.data.msg, type: "success" }]
-        });
-      
-      
-    
+      };
+      let s = "";
+      for (let input of state.inputs) {
+        s += input.value + " ";
+      }
+      s = s.trim();
+      const body = { input: s };
+      console.log(body);
+      const res = await Axios.post("/tools/use/" + toolID, body, config);
+      // const res = {};
+      // const res = await API.executeTool();
+      setState({
+        ...state,
+        output: res.data,
+        alerts: [...state.alerts, { text: res.data.msg, type: "success" }]
+      });
     } catch (err) {
-      if (err.response) setState({ ...state, alerts: [...state.alerts, { text: err.response.data.msg || "Server error.", type: "danger" }] });
-      console.log(err)
+      console.log(err.response);
+      if (err.response) setAlerts([...alerts, { msg: err.response.data.err || "Server error.", alertType: "danger" }]);
     }
   };
   return (
     <div>
       <Navbar />
       <div className="container px-3" style={{ paddingTop: 74 }}>
-        <Alerts alerts={state.alerts} />
+        <Alerts alerts={alerts} />
         {console.log(tool)}
         <div className="h2 py-3">{state.tool.tool_name}</div>
-        <div className="h3 mb-4">Field name: {state.tool.field?state.tool.field.field_name:""}</div>
+        <div className="h3 mb-4">Field name: {state.tool.field ? state.tool.field.field_name : ""}</div>
         <div className="h4 mb-4">Creation date: {state.tool.creation_date}</div>
         <form onSubmit={e => handleSubmit(e)}>
           <div className="text-muted h5">Input</div>

@@ -5,12 +5,14 @@ import Home from "./components/Home";
 import Fields from "./components/Fields";
 import Create from "./components/Create";
 import Tool from "./components/Tool";
+import Login from "./components/Login";
 
-function App() {
+const App = ({ auth }) => {
   return (
     <Router>
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
         <Route exact path="/fields" component={Fields} />
         <Route exact path="/fields/:selectedFieldID" component={Fields} />
         <Route exact path="/create" component={Create} />
@@ -18,6 +20,6 @@ function App() {
       </Switch>
     </Router>
   );
-}
+};
 
 export default App;
