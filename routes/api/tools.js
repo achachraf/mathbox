@@ -100,6 +100,7 @@ router.get("/field/:field_id", async (req, res) => {
 router.post("/use/:id", async (req, res) => {
   try {
     const { input } = req.body;
+    console.log(input);
     const db_input = await knex("tools")
       .where({
         tool_id: req.params.id
@@ -123,6 +124,7 @@ router.post("/use/:id", async (req, res) => {
 
     //input verification
     const inputPattern = await knex("input").where({ tool_id });
+    //console.log(input);
     let arrInput = input.replace("\n", " ").split(" ");
     if (arrInput.length !== inputPattern.length) {
       console.log("Invaild input");

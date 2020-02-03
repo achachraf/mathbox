@@ -2,22 +2,36 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Alerts } from "./UI";
 import * as API from "../API";
+import Axios from "axios";
 
 const Tool = ({
   match: {
     params: { toolID }
   }
 }) => {
-  const tool = API.getTool(toolID);
+  // const tool = API.getTool(toolID);
 
   const [state, setState] = useState({
     loaded: false,
     inputs: [],
     alerts: [],
-    output: ""
+    output: "",
+    tool : {}
   });
+  
+  useEffect(()=>{
+    
+  },[])
+  
+  let tool = {};
+
   useEffect(() => {
-    if (state.loaded === false && tool.inputs !== undefined) setState(s => ({ ...s, inputs: tool.inputs, loaded: true }));
+    const getTool = async ()=>{
+      const response = await Axios.get("/tools/"+toolID);
+      tool = response.data;
+      if (state.loaded === false && tool.inputs !== undefined) setState(s => ({ ...s, inputs: tool.inputs, loaded: true,tool }));
+    }
+    getTool();
   }, [tool.inputs, state.loaded]);
 
   const onInputChange = (e, i) => {
@@ -33,13 +47,32 @@ const Tool = ({
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const res = {};
-      // const res = await API.executeTool();
-      setState({
-        ...state,
-        output: res.data.output,
-        alerts: [...state.alerts, { text: res.data.msg, type: "success" }]
-      });
+      
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfaWQiOjR9LCJpYXQiOjE1ODA2ODQzMDMsImV4cCI6MTU4MTA0NDMwM30.85BWzRV5YYa5nZn55BrAh-e2KQhUbN02BG61L_JvU24"
+          }
+        };
+        let s = "";
+        for(let input of state.inputs){
+          s += input.value+" "
+        }
+        s = s.trim();
+        const body = {input:s}
+        console.log(body);
+        const res = await Axios.post("/tools/use/"+toolID,body,config);
+        // const res = {};
+        // const res = await API.executeTool();
+        setState({
+          ...state,
+          output: res.data,
+          alerts: [...state.alerts, { text: res.data.msg, type: "success" }]
+        });
+      
+      
+    
     } catch (err) {
       if (err.response) setState({ ...state, alerts: [...state.alerts, { text: err.response.data.msg || "Server error.", type: "danger" }] });
     }
@@ -49,8 +82,10 @@ const Tool = ({
       <Navbar />
       <div className="container px-3" style={{ paddingTop: 74 }}>
         <Alerts alerts={state.alerts} />
-        <div className="h2 py-3">{tool.name}</div>
-        <div className="mb-4">{tool.description}</div>
+        {console.log(tool)}
+        <div className="h2 py-3">{state.tool.tool_name}</div>
+        <div className="h3 mb-4">Field name: {state.tool.field?state.tool.field.field_name:""}</div>
+        <div className="h4 mb-4">Creation date: {state.tool.creation_date}</div>
         <form onSubmit={e => handleSubmit(e)}>
           <div className="text-muted h5">Input</div>
           {state.inputs.map((input, id) => (
@@ -69,7 +104,7 @@ const Tool = ({
         </form>
         <div className="text-muted h5">Output</div>
         <pre className="form-control" readOnly>
-          No output.
+          {state.output || "No outputs"}
         </pre>
       </div>
     </div>

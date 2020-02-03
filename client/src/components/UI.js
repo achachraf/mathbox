@@ -64,10 +64,10 @@ export const ToolRow = props => {
   return (
     <div className="card mb-3">
       <div className="card-body">
-        <Link to={`/tools/${tool.id}`} className="h5" >{tool.name}</Link>
-        <p className="card-text mb-1">{tool.description}</p>
+        <Link to={`/tools/${tool.tool_id}`} className="h5" >{tool.tool_name}</Link>
+        <p className="card-text mb-1">{tool.tool_name}</p>
         <p className="card-text">
-          <small className="text-muted">ID : {tool.id}</small>
+          <small className="text-muted">ID : {tool.tool_id}</small>
         </p>
       </div>
     </div>
