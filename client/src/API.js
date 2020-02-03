@@ -1,7 +1,7 @@
-import axios from 'axios'
+import axios from "axios";
+
 
 export async function getAllFields(count = 3) {
-
   const response = await axios.get("/fields");
   return response.data;
 }
@@ -40,6 +40,9 @@ export function getTool(ToolID) {
     name: "Find all divisors",
     description:
       "lorem ipsum zebinus gzaetum qlauies lorem ipsum zebinus gzaetum qlauies, lorem ipsum. zebinus gzaetum qlauies lorem ipsum zebinus gzaetum qlauies lorem ipsum zebinus gzaetum qlauies lorem ipsum zebinus gzaetum qlauies lorem ipsum zebinus gzaetum qlauies",
-    inputs: [{ input_type: "integer", input_order: 1, value:"" },{ input_type: "decimal", input_order: 2, value:"" }]
+    inputs: [
+      { input_type: "integer", input_order: 1, value: "" },
+      { input_type: "decimal", input_order: 2, value: "" }
+    ]
   };
 }

@@ -49,7 +49,9 @@ export const UserBar = props => {
   return (
     <div className="px-2">
       {user == null ? (
-        <Link to="/login">Log in</Link>
+        <Link to="/login">
+        {/* Log in */}
+        </Link>
       ) : (
         <div>
           <Link to="/profile">{user.name}</Link>
