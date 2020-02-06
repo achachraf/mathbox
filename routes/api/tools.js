@@ -118,7 +118,7 @@ router.post("/use/:id", async (req, res) => {
     //check if file
     if (!toolExist(field_name + "/" + tool_name)) {
       //delete the tool from the BD to synchronise
-      knex("tools").delete({ tool_id });
+      //knex("tools").delete({ tool_id });
       return res.status(400).send({ err: "Tool not found in the server" });
     }
 
@@ -142,6 +142,7 @@ router.post("/use/:id", async (req, res) => {
       let type = getType(arrInput[i]);
       console.log(type)
       if (type == null) return res.status(400).send({ err: "Invalid input" });
+      if(type === "string") return res.status(400).send({err:"invalid input type"});
       if (type === "decimal" && type !== inputPattern[i].input_type) {
         console.log("walo");
         return res.status(400).send({
@@ -169,7 +170,7 @@ router.post("/use/:id", async (req, res) => {
 //  @desc   create tools
 router.post("/", auth, async (req, res) => {
   // let tool_name,field_id,code,inputPattern;
-  let { tool_name, field_id, code, input } = req.body;
+  let { tool_name, field_id, code, input ,description} = req.body;
   let {user_id} = req.user;
   const isToolExist = await knex("tools")
     .where({ tool_name })
@@ -198,7 +199,8 @@ router.post("/", auth, async (req, res) => {
       .insert({
         tool_name,
         field_id,
-        user_id
+        user_id,
+        description
       });
     if (input && input.length !== 0) {
       for (line of input) {
