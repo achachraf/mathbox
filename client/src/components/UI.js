@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Logo from "../mathbox.png";
 import setAuthToken from "../utils/setAuthToken";
-import { MdPerson } from "react-icons/md";
+import { MdPerson, MdExitToApp } from "react-icons/md";
+import * as API from '../API'
 
 export const Navbar = () => {
   const handleCollapseToggle = e => {
@@ -52,8 +53,6 @@ export const UserBar = props => {
     try {
       const res = await axios.get("/users/auth");
       console.log(res.data);
-      console.log("HHHH");
-
       return res.data;
     } catch (err) {
       //   const error = err.response.data;
@@ -66,15 +65,16 @@ export const UserBar = props => {
   const [auth, setAuth] = useState({ user: null, isAuthenticated: false, loading: true });
 
   let user;
-  useEffect(() => {
-    user = loadUser();
-  }, []);
-  
+
   useEffect(() => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
-      console.log(user);
-      setAuth({ ...auth, user });
+      // console.log(user);
+      const load = async () => {
+        const user = await loadUser();
+        setAuth({ ...auth, user });
+      };
+      load();
     }
     console.log(auth.user);
   }, [user]);
@@ -88,6 +88,9 @@ export const UserBar = props => {
           {/* <Link to="/profile"> */}
           <MdPerson /> {auth.user.username}
           {/* </Link> */}
+          <Link className="ml-2" alt="Log out" onClick={() => API.logout()} to="/">
+            <MdExitToApp />
+          </Link>
         </div>
       )}
     </div>

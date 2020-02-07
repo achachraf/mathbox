@@ -56,16 +56,6 @@ const Login = props => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    return {
-      ...auth,
-      isAuthenticated: false,
-      loading: false,
-      user: null
-    };
-  };
-
   const [formData, setFormData] = useState({
     username: "",
     password: ""

@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 export async function getAllFields(count = 3) {
   const response = await axios.get("/fields");
   return response.data;
@@ -44,5 +43,15 @@ export function getTool(ToolID) {
       { input_type: "integer", input_order: 1, value: "" },
       { input_type: "decimal", input_order: 2, value: "" }
     ]
+  };
+}
+
+export function logout() {
+  localStorage.removeItem("token");
+  window.location.reload();
+  return {
+    isAuthenticated: false,
+    loading: false,
+    user: null
   };
 }
