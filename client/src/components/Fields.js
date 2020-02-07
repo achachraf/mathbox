@@ -17,10 +17,6 @@ const Fields = ({
   });
 
   useEffect(() => {
-    console.log("toolsloading" + state.toolsLoading);
-  }, []);
-
-  useEffect(() => {
     const api = async () => {
       const {
         data: { tools }
@@ -33,16 +29,19 @@ const Fields = ({
       });
     };
     if (selectedFieldID && state.toolsLoading === true) {
-      setTimeout(() => {
-        setState(state => ({
+      api();
+    }
+
+  }, [selectedFieldID]);
+
+  useEffect(() => {
+    setState(state => {
+        return {
           ...state,
           toolsLoading: true
-        }));
-      }, 800);
-      api();
-
-    }
-  }, [selectedFieldID]);
+        };
+    });
+  }, [state.tools, state.toolsLoading]);
 
   useEffect(() => {
     const getFields = async () => {
@@ -72,7 +71,6 @@ const Fields = ({
                 <div className="card mb-2" key={i}>
                   <div className="card-body">
                     <b>
-                      {console.log(value)}
                       <Link to={"/fields/" + value.field_id}>{value.field_name}</Link>
                     </b>
                   </div>

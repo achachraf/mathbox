@@ -48,18 +48,12 @@ export const Navbar = () => {
 };
 
 export const UserBar = props => {
-  const [auth, setAuth] = useState({ user: null, isAuthenticated: false, loading: true });
-  useEffect(() => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-      setAuth({ ...auth, user: loadUser() });
-    }
-  }, []);
-
   const loadUser = async () => {
     try {
       const res = await axios.get("/users/auth");
-      // console.log(res.data);
+      console.log(res.data);
+      console.log("HHHH");
+
       return res.data;
     } catch (err) {
       //   const error = err.response.data;
@@ -69,6 +63,22 @@ export const UserBar = props => {
     }
   };
 
+  const [auth, setAuth] = useState({ user: null, isAuthenticated: false, loading: true });
+
+  let user;
+  useEffect(() => {
+    user = loadUser();
+  }, []);
+  
+  useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+      console.log(user);
+      setAuth({ ...auth, user });
+    }
+    console.log(auth.user);
+  }, [user]);
+
   return (
     <div className="px-2">
       {auth.user == null ? (
@@ -76,7 +86,7 @@ export const UserBar = props => {
       ) : (
         <div>
           {/* <Link to="/profile"> */}
-            <MdPerson /> {auth.user.username}
+          <MdPerson /> {auth.user.username}
           {/* </Link> */}
         </div>
       )}
