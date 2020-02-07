@@ -104,7 +104,8 @@ const Create = () => {
         tool_name: state.tool.name,
         field_id: state.tool.field,
         code: state.tool.code,
-        input: state.tool.inputs
+        input: state.tool.inputs,
+        description: state.tool.description
       };
       const res = await axios.post("/tools", body, config);
       setState(initialState)

@@ -61,9 +61,11 @@ const Tool = ({
       const res = await Axios.post("/tools/use/" + toolID, body, config);
       // const res = {};
       // const res = await API.executeTool();
+      console.log("resonse is :")
+      console.log(res)
       setState({
         ...state,
-        output: res.data,
+        output: res.data+"",
       });
       // setAlerts([...alerts, { msg: res.data.msg, alertType: "success" }])
     } catch (err) {
@@ -78,8 +80,9 @@ const Tool = ({
         <Alerts alerts={alerts} />
         {console.log(tool)}
         <div className="h2 py-3">{state.tool.tool_name}</div>
-        <div className="h3 mb-4">Field name: {state.tool.field ? state.tool.field.field_name : ""}</div>
-        <div className="h4 mb-4">Creation date: {state.tool.creation_date}</div>
+        <div className="mb-2">{state.tool.description}</div>
+        <div className="mb-4">Field:<b> {state.tool.field ? state.tool.field.field_name : ""}</b></div>
+        <div className="mb-4">Creation date: {state.tool.creation_date}</div>
         <form onSubmit={e => handleSubmit(e)}>
           <div className="text-muted h5">Input</div>
           {state.inputs.map((input, id) => (
@@ -97,7 +100,7 @@ const Tool = ({
           </div>
         </form>
         <div className="text-muted h5">Output</div>
-        <pre className="form-control" readOnly>
+        <pre className="p-2 bg-light border rounded border-secondary" readOnly >
           {state.output || "No outputs"}
         </pre>
       </div>
