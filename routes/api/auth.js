@@ -27,9 +27,10 @@ router.post("/",async (req,res)=>{
         jwt.sign(
             payload,
             config.get("jwtSecret"),
-            {expiresIn:360000},
+            {expiresIn:360000000},
             (err,token)=>{
                 if(err) throw err;
+                // console.log(token);
                 res.send({token});
             }   
         )

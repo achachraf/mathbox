@@ -9,6 +9,7 @@ const Login = props => {
 
   useEffect(() => {
     if (localStorage.token) {
+      console.log(localStorage.token)
       setAuthToken(localStorage.token);
       setAuth({ ...auth, user: loadUser() });
     }
@@ -41,6 +42,7 @@ const Login = props => {
       const res = await axios.post("/auth", body, config);
       localStorage.setItem("token", res.data.token);
       const user = await loadUser();
+      console.log(user)
       return {
         ...auth,
         user,

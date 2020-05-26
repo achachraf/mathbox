@@ -95,9 +95,7 @@ const Create = () => {
       //token just for test
       const config = {
         headers: {
-          "Content-Type": "application/json",
-          "x-auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfaWQiOjR9LCJpYXQiOjE1ODA2ODQzMDMsImV4cCI6MTU4MTA0NDMwM30.85BWzRV5YYa5nZn55BrAh-e2KQhUbN02BG61L_JvU24"
+          "Content-Type": "application/json"
         }
       };
       const body = {

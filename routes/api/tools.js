@@ -140,7 +140,6 @@ router.post("/use/:id", async (req, res) => {
     }
     for (let i = 0; i < arrInput.length; i++) {
       let type = getType(arrInput[i]);
-      console.log(type)
       if (type == null) return res.status(400).send({ err: "Invalid input" });
       if(type === "string") return res.status(400).send({err:"invalid input type"});
       if (type === "decimal" && type !== inputPattern[i].input_type) {
@@ -169,6 +168,7 @@ router.post("/use/:id", async (req, res) => {
 //  @method POST
 //  @desc   create tools
 router.post("/", auth, async (req, res) => {
+  
   // let tool_name,field_id,code,inputPattern;
   let { tool_name, field_id, code, input ,description} = req.body;
   let {user_id} = req.user;

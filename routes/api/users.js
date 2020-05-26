@@ -31,7 +31,7 @@ router.get("/user/:user_id", async (req, res) => {
 router.get("/auth", auth, async (req, res) => {
   try {
     let { user_id } = req.user;
-    console.log("USER ID " + user_id);
+    // console.log("USER ID " + user_id);
     let user = await knex("users")
       .select("username", "email", "creation_date")
       .where({ user_id })
@@ -78,7 +78,7 @@ router.post("/", async (req, res) => {
     jwt.sign(
       payload,
       config.get("jwtSecret"),
-      { expiresIn: 360000 },
+      { expiresIn: 36000000 },
       (err, token) => {
         if (err) throw err;
         res.send({ token });

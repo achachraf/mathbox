@@ -51,6 +51,7 @@ export const Navbar = () => {
 export const UserBar = props => {
   const loadUser = async () => {
     try {
+      console.log(axios.defaults.headers.common['x-auth-token'])
       const res = await axios.get("/users/auth");
       console.log(res.data);
       return res.data;

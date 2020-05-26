@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Alerts } from "./UI";
 import * as API from "../API";
-import Axios from "axios";
+import axios from "axios";
 
 const Tool = ({
   match: {
@@ -24,7 +24,7 @@ const Tool = ({
 
   useEffect(() => {
     const getTool = async () => {
-      const response = await Axios.get("/tools/" + toolID);
+      const response = await axios.get("/tools/" + toolID);
       tool = response.data;
       if (state.loaded === false && tool.inputs !== undefined) setState(s => ({ ...s, inputs: tool.inputs, loaded: true, tool }));
     };
@@ -46,9 +46,7 @@ const Tool = ({
     try {
       const config = {
         headers: {
-          "Content-Type": "application/json",
-          "x-auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfaWQiOjR9LCJpYXQiOjE1ODA2ODQzMDMsImV4cCI6MTU4MTA0NDMwM30.85BWzRV5YYa5nZn55BrAh-e2KQhUbN02BG61L_JvU24"
+          "Content-Type": "application/json"
         }
       };
       let s = "";
@@ -58,7 +56,7 @@ const Tool = ({
       s = s.trim();
       const body = { input: s };
       console.log(body);
-      const res = await Axios.post("/tools/use/" + toolID, body, config);
+      const res = await axios.post("/tools/use/" + toolID, body, config);
       // const res = {};
       // const res = await API.executeTool();
       console.log("resonse is :")

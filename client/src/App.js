@@ -6,6 +6,11 @@ import Fields from "./components/Fields";
 import Create from "./components/Create";
 import Tool from "./components/Tool";
 import Login from "./components/Login";
+import setAuthToken from "./utils/setAuthToken"
+
+if(localStorage.token){
+  setAuthToken(localStorage.token)
+}
 
 const App = ({ auth }) => {
   return (
